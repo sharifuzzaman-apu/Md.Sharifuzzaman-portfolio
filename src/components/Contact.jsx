@@ -149,6 +149,7 @@ export default function Contact() {
       {/* ✅ Form with validation + Netlify ready */}
       <form
         name="contact"
+        netlify
         method="POST"
         data-netlify="true"
         onSubmit={handleSubmit}
