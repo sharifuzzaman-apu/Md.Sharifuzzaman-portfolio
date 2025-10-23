@@ -74,6 +74,7 @@ export default function Contact() {
     fontWeight: "600",
     cursor: "pointer",
     marginTop: "10px",
+    transition: "all 0.3s ease",
   };
 
   const [formData, setFormData] = useState({
@@ -83,20 +84,35 @@ export default function Contact() {
     message: "",
   });
 
+  const [errors, setErrors] = useState({});
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10,15}$/;
+
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!emailRegex.test(formData.email))
+      newErrors.email = "Invalid email format";
+    if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
+    else if (!phoneRegex.test(formData.phone))
+      newErrors.phone = "Enter a valid phone number (10–15 digits)";
+    if (!formData.message.trim()) newErrors.message = "Message cannot be empty";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Simple validation
-    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
-      alert("Please fill in all fields!");
-      return;
-    }
+    if (!validateForm()) return;
 
-    // Submit form using Netlify
     const form = e.target;
     fetch("/", {
       method: "POST",
@@ -106,8 +122,12 @@ export default function Contact() {
         ...formData,
       }).toString(),
     })
-      .then(() => alert("Message sent successfully ✅"))
-      .catch(() => alert("Something went wrong ❌"));
+      .then(() => {
+        alert("✅ Message sent successfully!");
+        setFormData({ name: "", email: "", phone: "", message: "" });
+        setErrors({});
+      })
+      .catch(() => alert("❌ Something went wrong. Please try again."));
   };
 
   return (
@@ -117,7 +137,8 @@ export default function Contact() {
         <p style={infoText}>
           <strong>Phone:</strong> <span style={highlight}>01762568008</span>
           <br />
-          <strong>Email:</strong> <span style={highlight}>sharifapuzaman@gmail.com</span>
+          <strong>Email:</strong>{" "}
+          <span style={highlight}>sharifapuzaman@gmail.com</span>
           <br />
           <br />
           I’m open to freelance projects, collaborations, or exciting job
@@ -125,7 +146,7 @@ export default function Contact() {
         </p>
       </div>
 
-      {/* ✅ Netlify-ready form */}
+      {/* ✅ Form with validation + Netlify ready */}
       <form
         name="contact"
         method="POST"
@@ -134,6 +155,7 @@ export default function Contact() {
         style={formStyle}
       >
         <input type="hidden" name="form-name" value="contact" />
+
         <input
           type="text"
           name="name"
@@ -141,8 +163,11 @@ export default function Contact() {
           style={inputStyle}
           value={formData.name}
           onChange={handleChange}
-          required
         />
+        {errors.name && (
+          <p style={{ color: "#ff4d4d", fontSize: "0.9rem" }}>{errors.name}</p>
+        )}
+
         <input
           type="email"
           name="email"
@@ -150,8 +175,11 @@ export default function Contact() {
           style={inputStyle}
           value={formData.email}
           onChange={handleChange}
-          required
         />
+        {errors.email && (
+          <p style={{ color: "#ff4d4d", fontSize: "0.9rem" }}>{errors.email}</p>
+        )}
+
         <input
           type="tel"
           name="phone"
@@ -159,8 +187,11 @@ export default function Contact() {
           style={inputStyle}
           value={formData.phone}
           onChange={handleChange}
-          required
         />
+        {errors.phone && (
+          <p style={{ color: "#ff4d4d", fontSize: "0.9rem" }}>{errors.phone}</p>
+        )}
+
         <textarea
           name="message"
           placeholder="Your Message"
@@ -168,8 +199,12 @@ export default function Contact() {
           style={inputStyle}
           value={formData.message}
           onChange={handleChange}
-          required
-        ></textarea>
+        />
+        {errors.message && (
+          <p style={{ color: "#ff4d4d", fontSize: "0.9rem" }}>
+            {errors.message}
+          </p>
+        )}
 
         <button type="submit" style={buttonStyle}>
           Send Message
