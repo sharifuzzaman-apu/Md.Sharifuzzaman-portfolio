@@ -1,48 +1,6 @@
 import React, { useState } from "react";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
-
-  const [status, setStatus] = useState({ type: "", message: "" });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-  const validatePhone = (phone) => /^[0-9]{10,15}$/.test(phone);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { name, email, phone, message } = formData;
-
-    if (!name || !email || !phone || !message) {
-      setStatus({ type: "error", message: "All fields are required." });
-      return;
-    }
-
-    if (!validateEmail(email)) {
-      setStatus({ type: "error", message: "Please enter a valid email address." });
-      return;
-    }
-
-    if (!validatePhone(phone)) {
-      setStatus({ type: "error", message: "Please enter a valid phone number (digits only)." });
-      return;
-    }
-
-    // ✅ Simulate successful submission
-    setStatus({ type: "success", message: "Your message has been sent successfully!" });
-    setFormData({ name: "", email: "", phone: "", message: "" });
-  };
-
-  // === Styles ===
   const sectionStyle = {
     padding: "80px 20px",
     background: "linear-gradient(to right, #0f0f0f, #272727)",
@@ -103,17 +61,6 @@ export default function Contact() {
     color: "white",
     fontSize: "1rem",
     outline: "none",
-    transition: "border 0.3s ease, box-shadow 0.3s ease",
-  };
-
-  const inputFocus = (e) => {
-    e.target.style.border = "1px solid #667eea";
-    e.target.style.boxShadow = "0 0 8px rgba(102,126,234,0.6)";
-  };
-
-  const inputBlur = (e) => {
-    e.target.style.border = "1px solid #555";
-    e.target.style.boxShadow = "none";
   };
 
   const buttonStyle = {
@@ -127,42 +74,44 @@ export default function Contact() {
     fontWeight: "600",
     cursor: "pointer",
     marginTop: "10px",
-    transition: "all 0.3s ease",
   };
 
-  const buttonHover = (e) => {
-    e.target.style.backgroundColor = "#5561c5";
-    e.target.style.transform = "scale(1.03)";
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const buttonLeave = (e) => {
-    e.target.style.backgroundColor = "#667eea";
-    e.target.style.transform = "scale(1)";
-  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const messageStyle = {
-    marginTop: "15px",
-    color: status.type === "error" ? "#ff6b6b" : "#4caf50",
-    fontWeight: "600",
-    textAlign: "center",
-  };
+    // Simple validation
+    if (!formData.name || !formData.email || !formData.phone || !formData.message) {
+      alert("Please fill in all fields!");
+      return;
+    }
 
-  const socialLink = {
-    display: "inline-block",
-    marginRight: "15px",
-    marginTop: "15px",
-    color: "#667eea",
-    textDecoration: "none",
-    fontWeight: "bold",
-    transition: "color 0.3s ease",
+    // Submit form using Netlify
+    const form = e.target;
+    fetch("/", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        "form-name": form.getAttribute("name"),
+        ...formData,
+      }).toString(),
+    })
+      .then(() => alert("Message sent successfully ✅"))
+      .catch(() => alert("Something went wrong ❌"));
   };
-
-  const handleHover = (e) => (e.target.style.color = "#8890f0");
-  const handleLeave = (e) => (e.target.style.color = "#667eea");
 
   return (
     <section id="contact" style={sectionStyle}>
-      {/* LEFT SIDE INFO */}
       <div style={leftStyle}>
         <h2 style={headingStyle}>Contact Me</h2>
         <p style={infoText}>
@@ -171,74 +120,60 @@ export default function Contact() {
           <strong>Email:</strong> <span style={highlight}>sharifapuzaman@gmail.com</span>
           <br />
           <br />
-          I’m open to freelance projects, collaborations, or exciting job opportunities. Let’s
-          connect and create something amazing together!
+          I’m open to freelance projects, collaborations, or exciting job
+          opportunities. Let’s connect and create something amazing together!
         </p>
-
-        <div>
-          <a href="https://github.com" style={socialLink} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-            GitHub
-          </a>
-          <a href="https://linkedin.com" style={socialLink} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-            LinkedIn
-          </a>
-          <a href="https://twitter.com" style={socialLink} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
-            Twitter
-          </a>
-        </div>
       </div>
 
-      {/* RIGHT SIDE FORM */}
-      <form style={formStyle} onSubmit={handleSubmit}>
+      {/* ✅ Netlify-ready form */}
+      <form
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        onSubmit={handleSubmit}
+        style={formStyle}
+      >
+        <input type="hidden" name="form-name" value="contact" />
         <input
           type="text"
           name="name"
           placeholder="Your Name"
-          value={formData.name}
           style={inputStyle}
+          value={formData.name}
           onChange={handleChange}
-          onFocus={inputFocus}
-          onBlur={inputBlur}
+          required
         />
         <input
           type="email"
           name="email"
           placeholder="Your Email"
-          value={formData.email}
           style={inputStyle}
+          value={formData.email}
           onChange={handleChange}
-          onFocus={inputFocus}
-          onBlur={inputBlur}
+          required
         />
         <input
-          type="text"
+          type="tel"
           name="phone"
-          placeholder="Your Phone"
-          value={formData.phone}
+          placeholder="Your Phone Number"
           style={inputStyle}
+          value={formData.phone}
           onChange={handleChange}
-          onFocus={inputFocus}
-          onBlur={inputBlur}
+          required
         />
         <textarea
           name="message"
           placeholder="Your Message"
           rows="4"
-          value={formData.message}
           style={inputStyle}
+          value={formData.message}
           onChange={handleChange}
-          onFocus={inputFocus}
-          onBlur={inputBlur}
+          required
         ></textarea>
-        <button
-          type="submit"
-          style={buttonStyle}
-          onMouseEnter={buttonHover}
-          onMouseLeave={buttonLeave}
-        >
+
+        <button type="submit" style={buttonStyle}>
           Send Message
         </button>
-        {status.message && <p style={messageStyle}>{status.message}</p>}
       </form>
     </section>
   );
