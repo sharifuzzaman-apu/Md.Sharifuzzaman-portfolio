@@ -30,6 +30,31 @@ body {
   min-height: 100vh;
 }
 
+/* On very narrow viewports prefer normal document flow so content stacks naturally */
+@media (max-width: 420px) {
+  body { display: block; }
+}
+
+/* Global container utility used across components */
+.container, .projects-inner, .skills-inner, .about-inner, .contact-inner, .hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 20px;
+  padding-right: 20px;
+  box-sizing: border-box;
+}
+
+/* Responsive images */
+img { max-width: 100%; height: auto; display: block; }
+
+/* Fluid typography for small screens */
+@media (max-width: 480px) {
+  :root { font-size: 15px; }
+}
+@media (max-width: 360px) {
+  :root { font-size: 14px; }
+}
+
 h1 {
   font-size: 3.2em;
   line-height: 1.1;

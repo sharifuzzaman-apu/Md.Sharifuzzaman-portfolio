@@ -1,59 +1,279 @@
-/* Responsive Hero: text left, image right on wide screens; stacked on small screens */
-.hero-section {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 50px 20px;
-  background: linear-gradient(to right, #0f0f0f, #272727);
-  color: #fff;
-}
-.hero-container {
-  width: 100%;
-  max-width: 1100px;
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-.hero-content {
-  flex:1 1 55%;
-}
-.hero-content h1 {
-  font-size: 2.5rem;
-  margin: 0 0 10px 0;
-}
-.hero-content h3 {
-  font-weight: 400;
-}
-.hero-content p {
-  max-width: 600px;
-  line-height: 1.6;
-  margin-top: 15px;
-}
-.hero-image {
-  flex: 0 0 200px;
-  display: flex;
-  justify-content: center;
-}
-.hero-image img {
-  width: 100%;
-  height: auto;
-  border-radius: 0; /* show full rectangular image */
-  border: 0; /* remove circular border */
-  object-fit: contain;
-  /* box-shadow: 0 6px 18px rgba(0,0,0,0.5); */
+:root{
+  --accent: #00bcd4;
+  --bg-1: #07080b;
+  --bg-2: #0f1113;
+  --muted: #98a1aa;
+  --text: #e6eef6;
+  /* Adjustable hero layout variables */
+  --hero-padding-vertical: 36px; /* reduced top/bottom padding */
+  /* make avatar fluid: min 110px, ideal 18vw, max 260px */
+  --hero-avatar-size: clamp(110px, 18vw, 260px);
 }
 
-@media (max-width: 700px) {
-  .hero-container {
-    flex-direction: column-reverse;
-    text-align: center;
-  }
-  .hero-image {
-    margin-bottom: 20px;
-  }
-  .hero-image img {
-    width: 100%;
-    height: 400px;
-  }
+/* Hero — modern dark layout */
+.hero-section{
+  min-height: calc(100vh - 64px);
+  display: flex;
+  align-items: center;
+  padding: var(--hero-padding-vertical) 20px;
+  background: radial-gradient(1200px 400px at 10% 10%, rgba(0,188,212,0.06), transparent), linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  color: var(--text);
+  position: relative;
+  overflow: hidden;
 }
+
+.hero-section::before{
+  content: "";
+  position: absolute;
+  right: -120px;
+  top: -60px;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle at 30% 30%, rgba(0,188,212,0.12), rgba(0,188,212,0.04) 35%, transparent 60%);
+  filter: blur(40px);
+  transform: rotate(12deg);
+  pointer-events: none;
+}
+
+.hero-container{
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  gap: 36px;
+  align-items: center;
+  position: relative; /* allow absolute positioning inside the container */
+}
+
+.hero-content{
+  flex: 1 1 58%;
+  position: relative; /* position context for hero-info-row inside hero-content */
+}
+
+.hero-eyebrow{
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin: 0 0 8px 0;
+}
+
+.hero-name{
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  margin: 0 0 8px 0;
+  line-height: 1.02;
+  background: linear-gradient(90deg, var(--text), rgba(255,255,255,0.6));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-title{
+  color: var(--muted);
+  margin: 0 0 18px 0;
+  font-size: 1.05rem;
+}
+
+/* small muted helper used with role-badge */
+.muted{ color: var(--muted); }
+
+/* Role badge to emphasize your current profession (copied from AboutMe for consistency) */
+.role-badge{
+  display:inline-block;
+  background: linear-gradient(90deg, #00bcd4 0%, #008b9e 100%);
+  color: #fff;
+  padding:8px 14px;
+  border-radius:14px;
+  font-weight:900;
+  margin-right:10px;
+  font-size:0.95rem;
+  vertical-align:middle;
+  text-transform:uppercase;
+  letter-spacing:0.6px;
+  box-shadow: 0 10px 30px rgba(0,188,212,0.12), 0 2px 6px rgba(2,6,10,0.6) inset;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* small tech label to appear inline beside the role badge */
+.role-tech{
+  display:inline-block;
+  color: var(--muted);
+  margin-left:8px;
+  font-weight:700;
+  vertical-align:middle;
+  font-size:0.95rem;
+}
+
+.hero-desc{
+  color: rgba(230,238,246,0.9);
+  max-width: 62ch;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+.hero-ctas{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* reloadable stats row inside hero */
+/* unified info row (stats + live cards) */
+.hero-info-row{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-top:14px;
+  overflow-x:auto;
+  padding-bottom:6px; /* allow some breathing when horizontally scrolling */
+}
+
+/* position the info row at the bottom-left of the hero section */
+.hero-info-row{
+  /* keep the info row in normal flow, directly under the CTAs */
+  position: static;
+  display:flex;
+  gap:12px;
+  align-items:center;
+  margin-top: 48px; /* big margin above the cards */
+  z-index: 5;
+}
+
+.info-card{
+  /* modern glass / card */
+  position: relative;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  border-radius: 12px;
+  min-width: 120px;
+  padding: 12px 16px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:6px;
+  box-shadow: 0 8px 30px rgba(2,6,8,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+
+.info-number{
+  font-weight:900;
+  color: var(--text);
+  font-size: 1.25rem;
+  line-height:1;
+  letter-spacing: -0.6px;
+}
+.info-label{ color: var(--muted); font-size:0.78rem; text-transform:uppercase; letter-spacing:1px; margin-top:4px; }
+
+/* decorative accent circle on the left of the card */
+.info-card::before{
+  /* decorative accent removed: hide pseudo-element for all cards to avoid stray dots */
+  content: "";
+  display: none;
+}
+
+/* hover elevation */
+.info-card:hover{
+  transform: translateY(-6px);
+  box-shadow: 0 18px 48px rgba(2,6,8,0.7), 0 2px 8px rgba(0,188,212,0.06) inset;
+}
+
+/* pulse animation applied when a count completes */
+@keyframes pulseUp {
+  0% { transform: translateY(0); }
+  30% { transform: translateY(-6px) scale(1.02); }
+  60% { transform: translateY(-2px) scale(0.995); }
+  100% { transform: translateY(0) scale(1); }
+}
+.info-number.pulse{
+  animation: pulseUp 700ms cubic-bezier(.2,.9,.3,1);
+}
+
+@media (max-width:720px){
+  .hero-info-row{ gap:10px; }
+  .info-card{ min-width: 95px; padding:10px 12px; }
+  /* on small screens make the row flow naturally under the content */
+  .hero-info-row{ position: static; justify-content: center; margin-top: 12px; }
+}
+
+/* live small cards below stats */
+.hero-live-cards{ display:none; } /* replaced by unified row */
+
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .14s ease, box-shadow .14s ease, opacity .12s ease;
+}
+
+.btn-primary{
+  background: var(--accent);
+  color: rgba(2,6,8,0.96);
+  box-shadow: 0 10px 30px rgba(0,188,212,0.12);
+}
+
+.btn-primary:hover{ transform: translateY(-3px); }
+
+.btn-ghost{
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+.btn-ghost:hover{ background: rgba(255,255,255,0.02); transform: translateY(-2px); }
+
+
+.hero-image{
+  flex: 0 0 var(--hero-avatar-size);
+  display: flex;
+  justify-content: center;
+}
+
+.hero-avatar{
+  width: var(--hero-avatar-size);
+  height: var(--hero-avatar-size);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid rgba(255,255,255,0.04);
+  box-shadow: 0 12px 40px rgba(2,6,8,0.6), 0 0 40px rgba(0,188,212,0.08) inset;
+  transition: transform .28s ease, box-shadow .28s ease;
+}
+
+.hero-avatar:hover{ transform: translateY(-6px) rotate(-1deg); box-shadow: 0 20px 60px rgba(2,6,8,0.7), 0 0 60px rgba(0,188,212,0.12) inset; }
+
+@media (max-width: 900px){
+  .hero-container{ gap: 22px; }
+  .hero-image{ flex-basis: calc(var(--hero-avatar-size) * 0.72); }
+  .hero-avatar{ width: var(--hero-avatar-size-sm); height: var(--hero-avatar-size-sm); }
+}
+
+@media (max-width: 720px){
+  .hero-container{ flex-direction: column-reverse; text-align: center; }
+  .hero-content{ width:100%; }
+  .hero-ctas{ justify-content: center; }
+  .hero-image{ margin-bottom: 12px; }
+}
+
+/* Tighten hero layout for very small screens */
+@media (max-width: 420px) {
+  .hero-section{ padding: 20px 12px; }
+  .hero-name{ font-size: 1.6rem; }
+  .hero-desc{ max-width: 100%; font-size: 0.95rem; }
+  .hero-avatar{ width: 140px; height: 140px; }
+  .hero-info-row{ margin-top: 18px; gap:8px; }
+  .info-card{ min-width: 92px; padding:10px 12px; }
+  .hero-ctas{ flex-direction:column; gap:10px; }
+}
+
+/* Ensure CTAs and cards are touch-friendly on very small viewports */
+@media (max-width: 360px) {
+  .hero-ctas .btn{ padding:10px 12px; font-size:0.95rem; width:100%; }
+  .info-card{ min-width: 86px; padding:8px 10px; }
+  .hero-name{ font-size:1.45rem }
+}
+

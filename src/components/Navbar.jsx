@@ -5,20 +5,13 @@ import "./Navbar.css";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
-  const linkStyle = {
-    color: "white",
-    textDecoration: "none",
-    fontWeight: "bold",
-    padding: "8px 12px",
-  };
-
   // Smooth scroll
   const handleScroll = (e, targetId) => {
     e.preventDefault();
     const target = document.getElementById(targetId);
     if (target) {
       window.scrollTo({
-        top: target.offsetTop - 60, // adjust for navbar height
+        top: target.offsetTop - 64, // adjust for navbar height
         behavior: "smooth",
       });
     }
@@ -29,21 +22,11 @@ export default function Navbar() {
     <header className="navbar">
       <div className="nav-inner">
         {/* Brand with profile image */}
-        <div className="nav-brand" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <img
-            src={myPhoto}
-            alt="Apu"
-            style={{
-              width: "45px",
-              height: "45px",
-              borderRadius: "50%",
-              border: "2px solid #00bcd4",
-              objectFit: "cover",
-            }}
-          />
-          <div style={{ display: "flex", flexDirection: "column", lineHeight: "1" }}>
-            <span style={{ fontWeight: "bold", fontSize: "1.1rem", color: "#fff" }}>Md Sharifuzzaman Apu</span>
-            <span style={{ fontSize: "0.8rem", color: "#b0e0e6" }}>Computer Engineer</span>
+        <div className="nav-brand">
+          <img src={myPhoto} alt="Apu" className="nav-avatar" />
+          <div className="brand-text">
+            <span className="brand-name">Md Sharifuzzaman Apu</span>
+            <span className="brand-sub">Computer Engineer</span>
           </div>
         </div>
 
@@ -51,29 +34,34 @@ export default function Navbar() {
         <button
           className="nav-toggle"
           aria-label="Toggle navigation"
+          aria-expanded={open}
+          aria-controls="primary-navigation"
           onClick={() => setOpen((v) => !v)}
         >
-          ☰
+          <span className="hamburger">☰</span>
         </button>
 
         {/* Navigation links */}
-        <nav
-          className={`nav-links ${open ? "open" : ""}`}
-          style={{ marginLeft: "auto" }}
-        >
-          <a href="#hero" style={linkStyle} onClick={(e) => handleScroll(e, "hero")}>
+        <nav id="primary-navigation" className={`nav-links ${open ? "open" : ""}`}>
+          <a className="nav-link" href="#hero" onClick={(e) => handleScroll(e, "hero")}>
             Home
           </a>
-          <a href="#skills" style={linkStyle} onClick={(e) => handleScroll(e, "skills")}>
+          <a className="nav-link" href="#skills" onClick={(e) => handleScroll(e, "skills")}>
             Skills
           </a>
-          <a href="#projects" style={linkStyle} onClick={(e) => handleScroll(e, "projects")}>
+          <a className="nav-link" href="#projects" onClick={(e) => handleScroll(e, "projects")}>
             Projects
           </a>
-          <a href="#about" style={linkStyle} onClick={(e) => handleScroll(e, "about")}>
+          <a className="nav-link" href="#about" onClick={(e) => handleScroll(e, "about")}>
             About Me
           </a>
-          <a href="#contact" style={linkStyle} onClick={(e) => handleScroll(e, "contact")}>
+          <a
+            className="nav-link contact-btn"
+            href="#contact"
+            role="button"
+            onClick={(e) => handleScroll(e, "contact")}
+            aria-label="Contact — open contact section"
+          >
             Contact
           </a>
         </nav>

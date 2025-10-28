@@ -1,0 +1,80 @@
+:root{
+  --accent: #00bcd4;
+  --bg-1: #07080b;
+  --bg-2: #0f1113;
+  --text: #e6eef6;
+  --muted: #98a1aa;
+  --card-bg: rgba(255,255,255,0.02);
+}
+
+.projects-section{
+  padding: 56px 20px;
+  background: radial-gradient(1200px 400px at 10% 10%, rgba(0,188,212,0.04), transparent), linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  color: var(--text);
+}
+
+.projects-inner{ max-width: 1200px; margin: 0 auto; }
+
+.projects-title{ font-size: 1.9rem; margin: 0 0 6px 0; font-weight:800; }
+.projects-sub{ color: var(--muted); margin-bottom: 22px; }
+
+.projects-grid{ display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+
+.project-card{
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.03);
+  /* primary dark shadow + very subtle blue glow to match About Me */
+  box-shadow: 0 10px 28px rgba(2,6,10,0.6), 0 0 36px rgba(102,126,234,0.04);
+  display: flex;
+  flex-direction: column;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.project-card:focus, .project-card:hover{
+  transform: translateY(-8px);
+  /* strong dark shadow + blueish highlight similar to About Me hover */
+  box-shadow: 0 22px 48px rgba(2,6,10,0.8), 0 12px 25px rgba(102,126,234,0.45);
+}
+
+.project-thumb{ height: 0; padding-top: 56%; /* maintain ~16:9-ish ratio */ display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden }
+.project-thumb .project-image{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover }
+.thumb-overlay{ color: rgba(255,255,255,0.9); font-weight:700; text-shadow: 0 6px 18px rgba(0,0,0,0.6); font-size:1.1rem; padding: 8px 14px; background: rgba(0,0,0,0.18); border-radius: 6px; }
+
+/* image inside the thumbnail when using online links */
+.project-image{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+.thumb-overlay{ position:relative; z-index:2; }
+
+.project-body{ padding: 16px 18px 20px 18px; display:flex; flex-direction:column; gap:8px; flex:1; }
+.project-name{ margin: 0; font-size:1.1rem; }
+.project-desc{ color: rgba(230,238,246,0.88); font-size:0.95rem; margin: 4px 0 8px 0; line-height:1.5; }
+
+.project-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+.tag{ background: rgba(255,255,255,0.03); color:var(--muted); padding:6px 8px; border-radius:8px; font-size:0.82rem; font-weight:700; }
+
+.project-ctas{ margin-top:auto; display:flex; gap:10px; }
+.btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:8px 12px; border-radius:10px; font-weight:700; text-decoration:none; cursor:pointer; }
+.btn-sm{ font-size:0.88rem; }
+.btn{ background: var(--accent); color: rgba(2,6,8,0.96); box-shadow: 0 8px 22px rgba(0,188,212,0.12); }
+.btn.ghost{ background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.06); box-shadow:none; }
+
+.projects-controls{ display:flex; justify-content:center; margin-top:18px; }
+.show-more{ padding:10px 16px; border-radius:12px; }
+
+@media (max-width: 980px){ .projects-grid{ grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 640px){ .projects-grid{ grid-template-columns: 1fr; } .project-thumb{ height:200px; } }
+
+/* Improve small-thumb readability */
+@media (max-width: 480px) {
+  .project-thumb{ height:160px; }
+  .thumb-overlay{ font-size:0.98rem; padding:6px 10px; }
+  .project-body{ padding:12px; }
+}
+
+/* Make CTA buttons full-width on very small screens and increase touch target */
+@media (max-width: 420px) {
+  .project-ctas{ flex-direction:column; gap:8px; }
+  .project-ctas .btn{ width:100%; padding:10px 12px; border-radius:10px; }
+  .projects-inner{ padding: 0 10px; }
+}

@@ -1,0 +1,140 @@
+:root{
+  /* Reuse same accent variables from other components */
+  --accent: #00bcd4;
+  --bg-1: #07080b;
+  --bg-2: #0f1113;
+  --text: #e6eef6;
+  --muted: #98a1aa;
+}
+
+.contact-section{
+  padding: 64px 20px;
+  background: radial-gradient(900px 300px at 10% 10%, rgba(0,188,212,0.04), transparent), linear-gradient(180deg, var(--bg-1), var(--bg-2));
+  color: var(--text);
+}
+
+.contact-inner{
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  /* make both cards equal width */
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: stretch; /* make both cards equal height */
+}
+
+.contact-card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 14px;
+  padding: 26px;
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 18px 60px rgba(2,6,10,0.6);
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  height:100%; /* stretch to match sibling card */
+  /* remove large fixed min-height so form can collapse on small screens */
+  min-height: auto;
+}
+
+.contact-info{ display:flex; flex-direction:column; gap:14px; }
+.contact-title{ font-size:1.5rem; margin:0; font-weight:800; border-bottom:3px solid var(--accent); display:inline-block; padding-bottom:6px; }
+.contact-sub{ color: rgba(230,238,246,0.9); margin:6px 0 12px 0; line-height:1.6 }
+
+.contact-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px; }
+.contact-list li{ display:flex; gap:12px; align-items:center; }
+.ci-icon{ width:44px; height:44px; display:inline-flex; align-items:center; justify-content:center; border-radius:10px; background: rgba(255,255,255,0.02); color:var(--accent); box-shadow: 0 8px 20px rgba(2,6,10,0.5); }
+.ci-label{ font-weight:700; color:var(--text); font-size:0.95rem }
+.ci-text{ color:var(--muted); }
+.ci-link{ color:var(--text); text-decoration:none; font-weight:700 }
+.ci-link:hover{ color:var(--accent); }
+
+.contact-social{ display:flex; gap:10px; margin-top:6px }
+.social-link{ color:var(--muted); display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:10px; background: rgba(255,255,255,0.01); border:1px solid rgba(255,255,255,0.025); transition: all .16s ease }
+.social-link:hover{ color:var(--accent); transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,188,212,0.08) }
+
+/* WhatsApp button styles */
+.whatsapp-btn{ display:inline-flex; align-items:center; justify-content:center; gap:12px; padding:14px 22px; border-radius:16px; background:#25D366; color:#042018; font-weight:900; text-decoration:none; box-shadow: 0 14px 40px rgba(2,6,10,0.28); border:1px solid rgba(0,0,0,0.06); transition: transform .12s ease, box-shadow .12s ease; width:80%; max-width:380px; font-size:1.03rem }
+.whatsapp-btn{ display:inline-flex; align-items:center; justify-content:center; gap:12px; padding:14px 22px; border-radius:16px; background:#25D366; color:#042018; font-weight:900; text-decoration:none; box-shadow: 0 14px 40px rgba(2,6,10,0.28); border:1px solid rgba(0,0,0,0.06); transition: transform .12s ease, box-shadow .12s ease; width:80%; max-width:380px; font-size:1.03rem; margin-top:28px }
+.whatsapp-btn:hover{ transform: translateY(-4px); box-shadow: 0 20px 56px rgba(2,6,10,0.34) }
+.whatsapp-icon{ color:white; display:inline-block }
+
+.contact-form{ display:flex; flex-direction:column; gap:20px; justify-content:space-between; align-items:center }
+.sr-only{ position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden }
+
+.form-grid{ display:grid; grid-template-columns: 1fr; gap:18px; width:100%; max-width:620px; }
+.form-field{ display:flex; flex-direction:column; position:relative }
+.form-field label{ font-size:0.85rem; color:var(--muted); margin-bottom:6px; font-weight:800 }
+.input-wrap{ position:relative; display:flex; align-items:center }
+.input-icon{ color:var(--muted); position:absolute; left:14px; pointer-events:none }
+.country-code{ display:none }
+.form-field.has-code .input-icon{ left:14px }
+.form-field.has-code .input{ padding-left:46px }
+.input{ width:100%; padding:12px 14px 12px 40px; border-radius:14px; border:1px solid rgba(255,255,255,0.05); background: rgba(255,255,255,0.02); color:var(--text); font-size:1.02rem; outline:none; transition: box-shadow .16s ease, transform .12s ease }
+.input:focus{ box-shadow: 0 10px 36px rgba(0,188,212,0.06); border-color: rgba(0,188,212,0.28); transform: translateY(-3px) }
+.input.error{ border-color: #ff6b6b; box-shadow: 0 8px 20px rgba(255,100,100,0.06) }
+.field-error{ color:#ff6b6b; font-size:0.86rem; margin-top:8px }
+
+.form-field.textarea .input{ padding-top:14px; padding-bottom:14px; min-height:160px; padding-left:16px }
+
+/* Make inputs visually larger for better proportion with aside */
+.input{ font-size:1.02rem; padding:12px 12px 12px 40px }
+.input-wrap{ min-height:48px }
+
+.form-field.filled label{ color:var(--accent) }
+
+.form-cta{ display:flex; align-items:center; gap:16px; margin-top:0px; width:100%; max-width:720px; justify-content:center }
+.form-field.textarea .input{ padding-top:14px; padding-bottom:14px; min-height:160px; padding-left:16px }
+.form-field.textarea .input{ padding-top:12px; padding-bottom:12px; min-height:120px; padding-left:16px }
+.btn-submit{ padding:14px 28px; border-radius:14px; background: linear-gradient(90deg,var(--accent), #2aa6c0); color: rgba(2,6,8,0.96); font-weight:900; border:none; cursor:pointer; box-shadow: 0 14px 40px rgba(0,188,212,0.12); transition: transform .12s ease; min-width:320px }
+.btn-submit:hover{ transform: translateY(-4px) }
+.submit-area{ color:var(--muted); font-weight:700 }
+.submit-success{ color:#00e676; font-weight:800 }
+
+/* Responsive: stack on small screens */
+@media (max-width: 1100px){
+  /* keep stacked-like behavior on medium screens but keep equal columns where space allows */
+  .contact-inner{ grid-template-columns: 1fr 1fr }
+}
+
+@media (max-width: 900px){
+  .contact-inner{ grid-template-columns: 1fr; }
+  .form-grid{ grid-template-columns: 1fr }
+  .input{ padding-left:14px }
+  .input-icon{ left:8px }
+  .contact-card{ padding:18px }
+  /* remove fixed min-height on small screens so cards collapse naturally */
+  .contact-card{ min-height: auto }
+  .form-cta{ max-width:100% }
+  .btn-submit{ width:100%; min-width:0 }
+}
+
+@media (max-width: 480px) {
+  .whatsapp-btn, .email-btn { width: 100%; max-width: none; padding: 12px 16px; font-size: 0.98rem; }
+  .contact-inner { gap: 18px; }
+  .input { font-size: 0.98rem; padding: 10px 12px; }
+  .input-icon{ left:10px }
+  .contact-card{ padding:14px }
+}
+
+/* Ensure inputs and CTA spacing are comfortable on very narrow phones */
+@media (max-width: 360px) {
+  .input{ padding:8px 10px; font-size:0.95rem }
+  .btn-submit{ padding:12px 10px; }
+  .contact-inner{ gap:12px }
+}
+
+/* ---------- Left card redesign styles ---------- */
+/* ---------- Left card redesign styles ---------- */
+.info-head{ display:flex; align-items:center; gap:14px; margin-bottom:8px }
+.info-avatar{ width:68px; height:68px; border-radius:14px; background: linear-gradient(135deg, var(--accent), #2aa6c0); display:flex; align-items:center; justify-content:center; font-weight:900; color:#021; font-size:1.15rem; box-shadow: 0 12px 36px rgba(0,188,212,0.12) }
+.info-meta .contact-title{ margin:0; font-size:1.45rem }
+.info-role{ font-size:0.95rem; color:var(--muted); margin-top:6px; font-weight:700 }
+.contact-ctas{ display:flex; flex-direction:column; gap:14px; margin-top:18px; align-items:center; width:100% }
+
+/* Email button (secondary) */
+.email-btn{ display:inline-flex; align-items:center; justify-content:center; gap:12px; padding:14px 22px; border-radius:16px; background:#25D366; color:#042018; font-weight:900; text-decoration:none; border:1px solid rgba(0,0,0,0.06); box-shadow: 0 14px 40px rgba(2,6,10,0.28); transition: transform .12s ease, box-shadow .12s ease; width:80%; max-width:380px; font-size:1.03rem }
+.email-btn:hover{ transform: translateY(-4px); box-shadow: 0 20px 56px rgba(2,6,10,0.34) }
+
+/* keep spacing consistent */
+.contact-info { padding-bottom: 18px }
