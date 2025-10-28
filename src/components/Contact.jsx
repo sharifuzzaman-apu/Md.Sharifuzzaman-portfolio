@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Contact.css";
+import Modal from "./Modal";
 
 export default function Contact() {
   // include whatsapp
@@ -77,6 +78,7 @@ export default function Contact() {
       setSubmitting(false);
     }
   };
+
 
   // Ensure the Email button reliably opens the user's mail client
   const handleEmailClick = (e) => {
@@ -234,6 +236,16 @@ export default function Contact() {
               {errors.submit ? <div className="field-error">{errors.submit}</div> : null}
             </div>
           </div>
+          {submitted && (
+            <Modal
+              visible={submitted}
+              title={"Thank you"}
+              message={"Your message has been sent. I will get back to you as soon as possible."}
+              primary={"Close"}
+              onPrimary={() => setSubmitted(false)}
+              onClose={() => setSubmitted(false)}
+            />
+          )}
         </form>
       </div>
     </section>

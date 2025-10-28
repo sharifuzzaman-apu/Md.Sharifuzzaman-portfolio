@@ -6,6 +6,7 @@ const skillsData = [
   { name: "CSS3", level: 94 },
   { name: "JavaScript (ES6+)", level: 90 },
   { name: "React.js", level: 89 },
+  { name: "Responsive", level: 90 },
   { name: "Tailwind CSS", level: 86 },
   { name: "Git & GitHub", level: 88 },
   { name: "Testing (Jest/RTL)", level: 72 },
